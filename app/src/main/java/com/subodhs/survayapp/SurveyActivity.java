@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.subodhs.survayapp.Adapter.MyViewPagerAdapter;
@@ -40,9 +41,10 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     /**
      * The {@link ViewPager} that will host the section contents.
      */
-    private ViewPager mViewPager;
+    static ViewPager mViewPager;
     ProgressBar progressBar;
     private ProgressDialog progressDialog;
+    TextView mTitleText;
 
 
     @Override
@@ -62,7 +64,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
-
+        mTitleText= (TextView) findViewById(R.id.titleText);
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
@@ -94,7 +96,9 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         System.out.println(questionsContent.getIntro());
         mQuestionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
         QUESTIONS=questionsContent.getQuestions();
+        progressBar.setMax(QUESTIONS.size()-1);
         mViewPager.setAdapter(mQuestionsPagerAdapter);
+       mTitleText.setText("Question 1 Out of "+QUESTIONS.size());
     }
 
     @Override
@@ -105,6 +109,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     @Override
     public void onPageSelected(int position) {
         progressBar.setProgress(progressBar.getProgress()+1);
+        mTitleText.setText("Question "+(position+1)+" Out of "+QUESTIONS.size());
 
     }
 

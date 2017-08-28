@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * A fragment with view to display question
  */
-public class QuestionViewFragment extends Fragment {
+public class QuestionViewFragment extends Fragment implements View.OnClickListener{
     private static final String QUESTION_NUMBER = "question_number";
     QuestionsContent.QuestionsBean questionsBean;
     LinearLayout mAnswerLayout;
@@ -50,6 +50,7 @@ public class QuestionViewFragment extends Fragment {
         TextView textView = (TextView) rootView.findViewById(R.id.questionText);
         mAnswerLayout= (LinearLayout) rootView.findViewById(R.id.answerLayout);
         mSubmitButton= (Button) rootView.findViewById(R.id.submitButton);
+        mSubmitButton.setOnClickListener(this);
         if (questionsBean.isCompulsary()){
             textView.setText(questionsBean.getText()+" *");
 
@@ -57,6 +58,7 @@ public class QuestionViewFragment extends Fragment {
 
         switch (questionsBean.getType()){
             case "scale":
+                ((TextView)rootView.findViewById(R.id.answerType)).setText("Drag on bar to select");
                 final View answerOptionView=getActivity().getLayoutInflater().inflate(R.layout.scale_option,null);
                 SeekBar mSeekBar= (SeekBar) answerOptionView.findViewById(R.id.seekBar);
                 mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -83,4 +85,13 @@ public class QuestionViewFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.submitButton:
+                SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER)+1);
+                break;
+            default:break;
+        }
+    }
 }
