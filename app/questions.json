@@ -55,7 +55,7 @@
       "compulsary": true
     },
     {
-      "type": "select",
+      "type": "MCQ",
       "text": "How frequently do you receive recognition from your manager?",
       "answers": [
         "Every Day",
