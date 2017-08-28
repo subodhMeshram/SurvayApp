@@ -12,6 +12,9 @@
     <string name="email">Email Id</string>
     <string name="enter_info">Enter Your Details</string>
     <string name="lets_go">Let\'s go</string>
+    <string name="question_label">Question</string>
+    <string name="compulsary">*</string>
+    <string name="submit">Submit</string>
     <array name="gender_array">
         <item>Male</item>
         <item>Female</item>

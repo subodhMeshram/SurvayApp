@@ -14,6 +14,8 @@ import com.subodhs.survayapp.Adapter.MyViewPagerAdapter;
 import com.subodhs.survayapp.Interface.GetQuestions;
 import com.subodhs.survayapp.Questions.QuestionsContent;
 
+import java.util.List;
+
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
@@ -30,6 +32,9 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
     private MyViewPagerAdapter mQuestionsPagerAdapter;
+
+    public static List<QuestionsContent.QuestionsBean> QUESTIONS;
+
 
     public static final String BASE_URL="https://raw.githubusercontent.com/";
     /**
@@ -50,11 +55,10 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mQuestionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mQuestionsPagerAdapter);
+        //mViewPager.setAdapter(mQuestionsPagerAdapter);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
@@ -88,6 +92,9 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
     private void parseQuestions(QuestionsContent questionsContent) {
         System.out.println(questionsContent.getIntro());
+        mQuestionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
+        QUESTIONS=questionsContent.getQuestions();
+        mViewPager.setAdapter(mQuestionsPagerAdapter);
     }
 
     @Override
