@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -37,7 +38,6 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
      * The {@link ViewPager} that will host the section contents.
      */
     private ViewPager mViewPager;
-    ActionBar actionBar;
     ProgressBar progressBar;
 
 
@@ -60,6 +60,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
 
+
         //tabLayout.;
 
     }
@@ -79,6 +80,9 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     public void onPageScrollStateChanged(int state) {
 
     }
+
+
+
 
     /**
      * A placeholder fragment containing a simple view.
