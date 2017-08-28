@@ -18,6 +18,11 @@ public class QuestionViewFragment extends Fragment {
     public QuestionViewFragment() {
 
     }
+
+    /**
+     * Returns a new instance of this fragment for the given section
+     * number.
+     */
     public static QuestionViewFragment newInstance(int sectionNumber) {
         QuestionViewFragment fragment = new QuestionViewFragment();
         Bundle args = new Bundle();

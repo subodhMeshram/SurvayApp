@@ -1,17 +1,12 @@
 package com.subodhs.survayapp;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.subodhs.survayapp.Adapter.MyViewPagerAdapter;
 
@@ -25,7 +20,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
      * may be best to switch to a
      * {@link android.support.v4.app.FragmentStatePagerAdapter}.
      */
-    private MyViewPagerAdapter mSectionsPagerAdapter;
+    private MyViewPagerAdapter mQuestionsPagerAdapter;
 
     /**
      * The {@link ViewPager} that will host the section contents.
@@ -44,17 +39,14 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
+        mQuestionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
 
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
+        mViewPager.setAdapter(mQuestionsPagerAdapter);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
-
-
-        //tabLayout.;
 
     }
 
