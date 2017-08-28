@@ -7,7 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -19,7 +22,7 @@ import java.util.List;
 /**
  * A fragment with view to display question
  */
-public class QuestionViewFragment extends Fragment implements View.OnClickListener{
+public class QuestionViewFragment extends Fragment implements View.OnClickListener {
     private static final String QUESTION_NUMBER = "question_number";
     QuestionsContent.QuestionsBean questionsBean;
     LinearLayout mAnswerLayout;
@@ -45,26 +48,26 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        questionsBean=SurveyActivity.QUESTIONS.get(getArguments().getInt(QUESTION_NUMBER));
-        View rootView=inflater.inflate(R.layout.fragment_question_view, container, false);
+        questionsBean = SurveyActivity.QUESTIONS.get(getArguments().getInt(QUESTION_NUMBER));
+        View rootView = inflater.inflate(R.layout.fragment_question_view, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.questionText);
-        mAnswerLayout= (LinearLayout) rootView.findViewById(R.id.answerLayout);
-        mSubmitButton= (Button) rootView.findViewById(R.id.submitButton);
+        mAnswerLayout = (LinearLayout) rootView.findViewById(R.id.answerLayout);
+        mSubmitButton = (Button) rootView.findViewById(R.id.submitButton);
         mSubmitButton.setOnClickListener(this);
-        if (questionsBean.isCompulsary()){
-            textView.setText(questionsBean.getText()+" *");
+        if (questionsBean.isCompulsary()) {
+            textView.setText(questionsBean.getText() + " *");
 
-        }else textView.setText(questionsBean.getText());
+        } else textView.setText(questionsBean.getText());
 
-        switch (questionsBean.getType()){
+        switch (questionsBean.getType()) {
             case "scale":
-                ((TextView)rootView.findViewById(R.id.answerType)).setText("Drag on bar to select");
-                final View answerOptionView=getActivity().getLayoutInflater().inflate(R.layout.scale_option,null);
-                SeekBar mSeekBar= (SeekBar) answerOptionView.findViewById(R.id.seekBar);
+                ((TextView) rootView.findViewById(R.id.answerType)).setText("Drag on bar to select");
+                final View answerOptionView = getActivity().getLayoutInflater().inflate(R.layout.scale_option, null);
+                SeekBar mSeekBar = (SeekBar) answerOptionView.findViewById(R.id.seekBar);
                 mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                        ((TextView)answerOptionView.findViewById(R.id.rangeValue)).setText(progress+"");
+                        ((TextView) answerOptionView.findViewById(R.id.rangeValue)).setText(progress + "");
                     }
 
                     @Override
@@ -79,7 +82,37 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                 });
                 mAnswerLayout.addView(answerOptionView);
                 break;
-            default:break;
+            case "MCQ":
+                if (questionsBean.isSingle()) {
+                    ((TextView) rootView.findViewById(R.id.answerType)).setText("Select one option from below");
+                    final View answerRadioView = getActivity().getLayoutInflater().inflate(R.layout.radiogroup_view, null);
+                    RadioGroup radioGroup = (RadioGroup) answerRadioView.findViewById(R.id.radioGroupView);
+
+                    List<String> optionList = questionsBean.getAnswers();
+                    int listSize = optionList.size();
+                    for (int i = 0; i < listSize; i++) {
+                        View radioItem = getActivity().getLayoutInflater().inflate(R.layout.radio_button, null);
+                        RadioButton radioButton = (RadioButton) radioItem.findViewById(R.id.radioButtonId);
+                        radioButton.setId(View.generateViewId());
+                        radioButton.setText(optionList.get(i));
+                        radioGroup.addView(radioItem);
+                    }
+                    mAnswerLayout.addView(answerRadioView);
+                } else {
+                    ((TextView) rootView.findViewById(R.id.answerType)).setText("Select options from below");
+
+
+                }
+                break;
+            case "text":
+                final View answerTextView=getActivity().getLayoutInflater().inflate(R.layout.text_view,null);
+                ((TextView) rootView.findViewById(R.id.answerType)).setText("Enter the answer below");
+                EditText answerText= (EditText) answerTextView.findViewById(R.id.answerTextId);
+                mAnswerLayout.addView(answerTextView);
+                break;
+
+            default:
+                break;
         }
 
         return rootView;
@@ -87,11 +120,12 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.submitButton:
-                SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER)+1);
+                SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER) + 1);
                 break;
-            default:break;
+            default:
+                break;
         }
     }
 }
