@@ -13,6 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.subodhs.survayapp.Questions.QuestionsContent;
 
@@ -126,6 +127,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitButton:
+                boolean flag=true;
                 JSONObject jsonObject=new JSONObject();
                 try {
                     View view=getView();
@@ -136,21 +138,34 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                         }
                         else if (questionsBean.getType().equals("text")){
                         String ans=((EditText)view.findViewById(R.id.answerTextId)).getText().toString().trim();
+                        if (ans.length()==0 && questionsBean.isCompulsary()){
+                            flag=false;
+                        }
                         jsonObject.put("answer",ans);
                     }
                     else if (questionsBean.getType().equals("MCQ")){
                         int id=((RadioGroup)view.findViewById(R.id.radioGroupView)).getCheckedRadioButtonId();
-                       String ans= ((RadioButton)view.findViewById(id)).getText().toString();
-                        jsonObject.put("answer",ans);
+                        System.out.println("radio button ans"+id);
+                        if (id==-1){
+                            flag=false;
+                        }else {
+                            String ans = ((RadioButton) view.findViewById(id)).getText().toString();
+                            jsonObject.put("answer", ans);
+                        }
                     }
                     }
                 catch (JSONException e) {
                     e.printStackTrace();
                 }
-                comm.addResponse(jsonObject);
-                SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER) + 1);
-                if ((getArguments().getInt(QUESTION_NUMBER) + 1) == SurveyActivity.QUESTIONS.size()){
-                    comm.sendData();
+                if (flag) {
+                    comm.addResponse(jsonObject);
+                    SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER) + 1);
+                    if ((getArguments().getInt(QUESTION_NUMBER) + 1) == SurveyActivity.QUESTIONS.size()) {
+                        comm.sendData();
+                    }
+                }
+                else {
+                    Toast.makeText(getActivity(), "Question is compulsory", Toast.LENGTH_SHORT).show();
                 }
                 break;
             default:
