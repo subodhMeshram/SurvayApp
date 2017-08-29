@@ -9,12 +9,12 @@ import java.util.Map;
  */
 
 public class QuestionAnswerContent {
-    public static List<QuestionAnswer> answerList=new ArrayList<>();
-    public void addItem(QuestionAnswer answer){
-        answerList.add(answer);
+    public static List<QuestionAnswer> ANSWER_LIST=new ArrayList<>();
+    public static void addItem(QuestionAnswer answer){
+        ANSWER_LIST.add(answer);
     }
 
-    public class QuestionAnswer{
+    public static class QuestionAnswer{
         public final String questionText;
         public final String answerText;
 

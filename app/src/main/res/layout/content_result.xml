@@ -101,6 +101,8 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         android:layout_marginTop="8dp"
+        app:layoutManager="LinearLayoutManager"
+        tools:listitem="@layout/question_answer_item"
         app:layout_constraintTop_toBottomOf="@+id/viewJsonButton" />
 
     <Button

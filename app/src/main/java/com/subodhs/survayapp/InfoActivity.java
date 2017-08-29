@@ -64,8 +64,9 @@ public class InfoActivity extends AppCompatActivity {
                     args.putString(GENDER,gender);
                     intent.putExtra(USER_DATA,args);
                     startActivity(intent);
+                    finish();
                 }
-                finish();
+
             }
         });
     }

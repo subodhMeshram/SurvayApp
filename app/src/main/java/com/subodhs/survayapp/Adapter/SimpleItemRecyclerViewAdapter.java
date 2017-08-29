@@ -21,13 +21,12 @@ import java.util.List;
  */
 
 public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+
     private final List<QuestionAnswerContent.QuestionAnswer> mValues;
     private QuestionAnswerContent.QuestionAnswer mItemResult;
-    private Context context;
 
-    public SimpleItemRecyclerViewAdapter(List<QuestionAnswerContent.QuestionAnswer> items,Context context) {
+    public SimpleItemRecyclerViewAdapter(List<QuestionAnswerContent.QuestionAnswer> items) {
         mValues = items;
-        this.context=context;
 
     }
 
@@ -42,6 +41,7 @@ public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleIt
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mQuestion.setText(holder.mItem.questionText);
+        System.out.println(holder.mItem.questionText);
         holder.mAnswer.setText(holder.mItem.answerText);
     }
 

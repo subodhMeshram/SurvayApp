@@ -53,7 +53,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     JSONObject inputObject;
     JSONArray inputArray;
 
-    public final String FINAL_JSON="final_json_data";
+    public static final String FINAL_JSON="final_json_data";
 
 
 
@@ -81,7 +81,6 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
             e.printStackTrace();
         }
         mViewPager = (ViewPager) findViewById(R.id.container);
-        //mViewPager.setAdapter(mQuestionsPagerAdapter);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
@@ -156,5 +155,6 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         Intent intent=new Intent(this,ResultActivity.class);
         intent.putExtra(FINAL_JSON,inputObject.toString());
         startActivity(intent);
+        finish();
     }
 }
