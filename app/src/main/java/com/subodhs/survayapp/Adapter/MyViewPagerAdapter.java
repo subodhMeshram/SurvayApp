@@ -30,7 +30,6 @@ public class MyViewPagerAdapter extends FragmentStatePagerAdapter {
     @Override
     public int getCount() {
         //returns the number of questions
-        System.out.println(SurveyActivity.QUESTIONS.size());
         return SurveyActivity.QUESTIONS.size();
     }
 }

@@ -19,6 +19,7 @@ public class InfoActivity extends AppCompatActivity {
     public static final String NAME = "name";
     public static final String EMAIL = "email";
     public static final String GENDER = "gender";
+    public static final String USER_DATA="user_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +36,8 @@ public class InfoActivity extends AppCompatActivity {
         mLetsGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(InfoActivity.this,SurveyActivity.class));
-                /*String name, email, gender;
+
+                String name, email, gender;
                 name = mName.getText().toString().trim();
                 email = mEmailId.getText().toString().trim();
                 gender = mGender.getSelectedItem().toString();
@@ -57,12 +58,13 @@ public class InfoActivity extends AppCompatActivity {
                 }
                 if (validationFlag) {
                     Intent intent = new Intent(InfoActivity.this, SurveyActivity.class);
-                    intent.putExtra(NAME,name);
-                    intent.putExtra(EMAIL,email);
-                    intent.putExtra(GENDER,gender);
+                    Bundle args=new Bundle();
+                    args.putString(NAME,name);
+                    args.putString(EMAIL,email);
+                    args.putString(GENDER,gender);
+                    intent.putExtra(USER_DATA,args);
                     startActivity(intent);
                 }
-*/
                 finish();
             }
         });

@@ -1,6 +1,7 @@
 package com.subodhs.survayapp;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -16,6 +17,7 @@ import com.subodhs.survayapp.Interface.GetQuestions;
 import com.subodhs.survayapp.Questions.QuestionsContent;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
@@ -51,6 +53,9 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     JSONObject inputObject;
     JSONArray inputArray;
 
+    public final String FINAL_JSON="final_json_data";
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +70,23 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
         // Set up the ViewPager with the sections adapter.
         inputArray=new JSONArray();
+        inputObject=new JSONObject();
+        Bundle userData;
+        userData=getIntent().getBundleExtra(InfoActivity.USER_DATA);
+        try {
+            inputObject.put(InfoActivity.NAME,userData.getString(InfoActivity.NAME));
+            inputObject.put(InfoActivity.EMAIL,userData.getString(InfoActivity.EMAIL));
+            inputObject.put(InfoActivity.GENDER,userData.getString(InfoActivity.GENDER));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         mViewPager = (ViewPager) findViewById(R.id.container);
         //mViewPager.setAdapter(mQuestionsPagerAdapter);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
         mTitleText= (TextView) findViewById(R.id.titleText);
-
+        userData=getIntent().getBundleExtra(InfoActivity.USER_DATA);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
         GetQuestions getMovies = retrofit.create(GetQuestions.class);
@@ -133,6 +148,13 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
     @Override
     public void sendData() {
-
+        try {
+            inputObject.put("results",inputArray);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        Intent intent=new Intent(this,ResultActivity.class);
+        intent.putExtra(FINAL_JSON,inputObject.toString());
+        startActivity(intent);
     }
 }

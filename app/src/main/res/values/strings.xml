@@ -19,4 +19,6 @@
         <item>Male</item>
         <item>Female</item>
     </array>
+    <string name="title_activity_result">ResultActivity</string>
+    <string name="view_json">View JSON</string>
 </resources>
