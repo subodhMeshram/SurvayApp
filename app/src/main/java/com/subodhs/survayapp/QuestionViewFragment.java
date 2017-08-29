@@ -16,6 +16,9 @@ import android.widget.TextView;
 
 import com.subodhs.survayapp.Questions.QuestionsContent;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.List;
 
 
@@ -27,6 +30,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
     QuestionsContent.QuestionsBean questionsBean;
     LinearLayout mAnswerLayout;
     Button mSubmitButton;
+    Communication comm;
 
     public QuestionViewFragment() {
 
@@ -41,6 +45,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
         Bundle args = new Bundle();
         args.putInt(QUESTION_NUMBER, sectionNumber);
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -53,6 +58,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
         TextView textView = (TextView) rootView.findViewById(R.id.questionText);
         mAnswerLayout = (LinearLayout) rootView.findViewById(R.id.answerLayout);
         mSubmitButton = (Button) rootView.findViewById(R.id.submitButton);
+        comm= (Communication) getActivity();
         mSubmitButton.setOnClickListener(this);
         if (questionsBean.isCompulsary()) {
             textView.setText(questionsBean.getText() + " *");
@@ -100,8 +106,6 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                     mAnswerLayout.addView(answerRadioView);
                 } else {
                     ((TextView) rootView.findViewById(R.id.answerType)).setText("Select options from below");
-
-
                 }
                 break;
             case "text":
@@ -122,10 +126,40 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitButton:
+                JSONObject jsonObject=new JSONObject();
+                try {
+                    View view=getView();
+                    jsonObject.put("question",questionsBean.getText());
+                    if (questionsBean.getType().equals("scale")){
+                          int num=  ((SeekBar)view.findViewById(R.id.seekBar)).getProgress();
+                            jsonObject.put("answer",num);
+                        }
+                        else if (questionsBean.getType().equals("text")){
+                        String ans=((EditText)view.findViewById(R.id.answerTextId)).getText().toString().trim();
+                        jsonObject.put("answer",ans);
+                    }
+                    else if (questionsBean.getType().equals("MCQ")){
+                        int id=((RadioGroup)view.findViewById(R.id.radioGroupView)).getCheckedRadioButtonId();
+                       String ans= ((RadioButton)view.findViewById(id)).getText().toString();
+                        jsonObject.put("answer",ans);
+                    }
+                    }
+                catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                comm.addResponse(jsonObject);
                 SurveyActivity.mViewPager.setCurrentItem(getArguments().getInt(QUESTION_NUMBER) + 1);
+                if ((getArguments().getInt(QUESTION_NUMBER) + 1) == SurveyActivity.QUESTIONS.size()){
+                    comm.sendData();
+                }
                 break;
             default:
                 break;
         }
+    }
+    public interface Communication{
+        public void addResponse(JSONObject singleQuestionObject);
+        public void sendData();
+
     }
 }

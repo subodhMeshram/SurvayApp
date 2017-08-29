@@ -15,6 +15,9 @@ import com.subodhs.survayapp.Adapter.MyViewPagerAdapter;
 import com.subodhs.survayapp.Interface.GetQuestions;
 import com.subodhs.survayapp.Questions.QuestionsContent;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.List;
 
 import retrofit2.Callback;
@@ -22,7 +25,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener{
+public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,QuestionViewFragment.Communication{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -45,6 +48,8 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     ProgressBar progressBar;
     private ProgressDialog progressDialog;
     TextView mTitleText;
+    JSONObject inputObject;
+    JSONArray inputArray;
 
 
     @Override
@@ -59,6 +64,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         // primary sections of the activity.
 
         // Set up the ViewPager with the sections adapter.
+        inputArray=new JSONArray();
         mViewPager = (ViewPager) findViewById(R.id.container);
         //mViewPager.setAdapter(mQuestionsPagerAdapter);
         progressBar= (ProgressBar) findViewById(R.id.progressBar);
@@ -119,5 +125,14 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     }
 
 
+    @Override
+    public void addResponse(JSONObject inputObject) {
+        inputArray.put(inputObject);
+        System.out.println(inputArray.toString());
+    }
 
+    @Override
+    public void sendData() {
+
+    }
 }
