@@ -6,7 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.GET;
 
 /**
- * Created by Subhodh on 8/28/2017.
+ * Retrofit interface to get the list of questions from server
  */
 
 public interface GetQuestions {

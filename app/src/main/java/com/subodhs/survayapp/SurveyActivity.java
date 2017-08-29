@@ -27,7 +27,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener,QuestionViewFragment.Communication{
+public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener, QuestionViewFragment.Communication {
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -42,7 +42,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     public static List<QuestionsContent.QuestionsBean> QUESTIONS;
 
 
-    public static final String BASE_URL="https://raw.githubusercontent.com/";
+    public static final String BASE_URL = "https://raw.githubusercontent.com/";
     /**
      * The {@link ViewPager} that will host the section contents.
      */
@@ -53,8 +53,7 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     JSONObject inputObject;
     JSONArray inputArray;
 
-    public static final String FINAL_JSON="final_json_data";
-
+    public static final String FINAL_JSON = "final_json_data";
 
 
     @Override
@@ -69,23 +68,23 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
         // primary sections of the activity.
 
         // Set up the ViewPager with the sections adapter.
-        inputArray=new JSONArray();
-        inputObject=new JSONObject();
+        inputArray = new JSONArray();
+        inputObject = new JSONObject();
         Bundle userData;
-        userData=getIntent().getBundleExtra(InfoActivity.USER_DATA);
+        userData = getIntent().getBundleExtra(InfoActivity.USER_DATA);
         try {
-            inputObject.put(InfoActivity.NAME,userData.getString(InfoActivity.NAME));
-            inputObject.put(InfoActivity.EMAIL,userData.getString(InfoActivity.EMAIL));
-            inputObject.put(InfoActivity.GENDER,userData.getString(InfoActivity.GENDER));
+            inputObject.put(InfoActivity.NAME, userData.getString(InfoActivity.NAME));
+            inputObject.put(InfoActivity.EMAIL, userData.getString(InfoActivity.EMAIL));
+            inputObject.put(InfoActivity.GENDER, userData.getString(InfoActivity.GENDER));
         } catch (JSONException e) {
             e.printStackTrace();
         }
         mViewPager = (ViewPager) findViewById(R.id.container);
-        progressBar= (ProgressBar) findViewById(R.id.progressBar);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar);
         progressBar.setVisibility(View.VISIBLE);
         mViewPager.addOnPageChangeListener(this);
-        mTitleText= (TextView) findViewById(R.id.titleText);
-        userData=getIntent().getBundleExtra(InfoActivity.USER_DATA);
+        mTitleText = (TextView) findViewById(R.id.titleText);
+        userData = getIntent().getBundleExtra(InfoActivity.USER_DATA);
         Retrofit retrofit = new Retrofit.Builder().baseUrl(BASE_URL).
                 addConverterFactory(GsonConverterFactory.create()).build();
         GetQuestions getMovies = retrofit.create(GetQuestions.class);
@@ -115,10 +114,10 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     private void parseQuestions(QuestionsContent questionsContent) {
         System.out.println(questionsContent.getIntro());
         mQuestionsPagerAdapter = new MyViewPagerAdapter(getSupportFragmentManager());
-        QUESTIONS=questionsContent.getQuestions();
-        progressBar.setMax(QUESTIONS.size()-1);
+        QUESTIONS = questionsContent.getQuestions();
+        progressBar.setMax(QUESTIONS.size() - 1);
         mViewPager.setAdapter(mQuestionsPagerAdapter);
-       mTitleText.setText("Question 1 Out of "+QUESTIONS.size());
+        mTitleText.setText("Question 1 Out of " + QUESTIONS.size());
     }
 
     @Override
@@ -128,8 +127,8 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
 
     @Override
     public void onPageSelected(int position) {
-        progressBar.setProgress(progressBar.getProgress()+1);
-        mTitleText.setText("Question "+(position+1)+" Out of "+QUESTIONS.size());
+        progressBar.setProgress(progressBar.getProgress() + 1);
+        mTitleText.setText("Question " + (position + 1) + " Out of " + QUESTIONS.size());
 
     }
 
@@ -148,12 +147,12 @@ public class SurveyActivity extends AppCompatActivity implements ViewPager.OnPag
     @Override
     public void sendData() {
         try {
-            inputObject.put("results",inputArray);
+            inputObject.put("results", inputArray);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Intent intent=new Intent(this,ResultActivity.class);
-        intent.putExtra(FINAL_JSON,inputObject.toString());
+        Intent intent = new Intent(this, ResultActivity.class);
+        intent.putExtra(FINAL_JSON, inputObject.toString());
         startActivity(intent);
         finish();
     }

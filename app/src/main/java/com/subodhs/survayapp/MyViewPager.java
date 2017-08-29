@@ -6,7 +6,7 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 
 /**
- * Created by Subhodh on 8/28/2017.
+ * customized View pager to disable swap
  */
 
 public class MyViewPager extends ViewPager {

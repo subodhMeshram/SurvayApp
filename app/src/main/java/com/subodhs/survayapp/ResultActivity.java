@@ -3,8 +3,6 @@ package com.subodhs.survayapp;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +18,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+/**
+ * Displaying result of questionnaire*/
 public class ResultActivity extends AppCompatActivity {
 
     @Override
@@ -51,10 +51,12 @@ public class ResultActivity extends AppCompatActivity {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ((Button)findViewById(R.id.viewJsonButton)).setOnClickListener(new View.OnClickListener() {
+        ((Button) findViewById(R.id.viewJsonButton)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder=new AlertDialog.Builder(ResultActivity.this);
+                /*
+                * Displaying Json*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(ResultActivity.this);
                 builder.setTitle("JSON DATA");
                 builder.setMessage(resultString);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {

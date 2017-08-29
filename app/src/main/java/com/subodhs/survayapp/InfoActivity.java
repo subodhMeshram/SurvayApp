@@ -9,6 +9,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+/**
+ * for getting the information of user
+ */
+
 public class InfoActivity extends AppCompatActivity {
     Button mLetsGo;
     EditText mName;
@@ -19,7 +23,7 @@ public class InfoActivity extends AppCompatActivity {
     public static final String NAME = "name";
     public static final String EMAIL = "email";
     public static final String GENDER = "gender";
-    public static final String USER_DATA="user_data";
+    public static final String USER_DATA = "user_data";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +31,8 @@ public class InfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_info);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mLetsGo = (Button) findViewById(R.id.letsGoButton);
         mName = (EditText) findViewById(R.id.personName);
         mEmailId = (EditText) findViewById(R.id.personEmail);
@@ -58,11 +62,11 @@ public class InfoActivity extends AppCompatActivity {
                 }
                 if (validationFlag) {
                     Intent intent = new Intent(InfoActivity.this, SurveyActivity.class);
-                    Bundle args=new Bundle();
-                    args.putString(NAME,name);
-                    args.putString(EMAIL,email);
-                    args.putString(GENDER,gender);
-                    intent.putExtra(USER_DATA,args);
+                    Bundle args = new Bundle();
+                    args.putString(NAME, name);
+                    args.putString(EMAIL, email);
+                    args.putString(GENDER, gender);
+                    intent.putExtra(USER_DATA, args);
                     startActivity(intent);
                     finish();
                 }

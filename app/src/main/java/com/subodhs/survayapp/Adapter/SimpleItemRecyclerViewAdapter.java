@@ -1,14 +1,9 @@
 package com.subodhs.survayapp.Adapter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.subodhs.survayapp.Questions.QuestionAnswerContent;
@@ -17,13 +12,12 @@ import com.subodhs.survayapp.R;
 import java.util.List;
 
 /**
- * Created by Subhodh on 8/29/2017.
+ * Recycler view adapter to handle the
  */
 
 public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
     private final List<QuestionAnswerContent.QuestionAnswer> mValues;
-    private QuestionAnswerContent.QuestionAnswer mItemResult;
 
     public SimpleItemRecyclerViewAdapter(List<QuestionAnswerContent.QuestionAnswer> items) {
         mValues = items;
@@ -50,13 +44,13 @@ public class SimpleItemRecyclerViewAdapter extends RecyclerView.Adapter<SimpleIt
         return mValues.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final TextView mQuestion;
-        public final TextView mAnswer;
-        public QuestionAnswerContent.QuestionAnswer mItem;
+    class ViewHolder extends RecyclerView.ViewHolder {
+        final View mView;
+        final TextView mQuestion;
+        final TextView mAnswer;
+        QuestionAnswerContent.QuestionAnswer mItem;
 
-        public ViewHolder(View view) {
+        ViewHolder(View view) {
             super(view);
             mView = view;
             mQuestion = (TextView) view.findViewById(R.id.questionText);

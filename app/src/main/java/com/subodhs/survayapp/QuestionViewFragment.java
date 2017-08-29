@@ -172,8 +172,14 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                 break;
         }
     }
+    /*
+    * Communication with Activity from Fragment using the interface*/
     public interface Communication{
+        /*
+        * add one answer object to the answer array in Survey Activity */
         public void addResponse(JSONObject singleQuestionObject);
+        /*
+        * To tell the Survey Activity that the questions ended*/
         public void sendData();
 
     }

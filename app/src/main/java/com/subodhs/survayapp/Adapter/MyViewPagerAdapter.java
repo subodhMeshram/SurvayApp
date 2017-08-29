@@ -5,7 +5,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import com.subodhs.survayapp.QuestionViewFragment;
-import com.subodhs.survayapp.Questions.QuestionsContent;
 import com.subodhs.survayapp.SurveyActivity;
 
 /**
