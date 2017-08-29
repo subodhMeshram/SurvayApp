@@ -57,6 +57,7 @@
     {
       "type": "MCQ",
       "text": "How frequently do you receive recognition from your manager?",
+       "single": true,
       "answers": [
         "Every Day",
         "Every Week",
