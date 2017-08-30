@@ -59,7 +59,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
         TextView textView = (TextView) rootView.findViewById(R.id.questionText);
         mAnswerLayout = (LinearLayout) rootView.findViewById(R.id.answerLayout);
         mSubmitButton = (Button) rootView.findViewById(R.id.submitButton);
-        comm= (Communication) getActivity();
+        comm = (Communication) getActivity();
         mSubmitButton.setOnClickListener(this);
         if (questionsBean.isCompulsary()) {
             textView.setText(questionsBean.getText() + " *");
@@ -110,9 +110,9 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                 }
                 break;
             case "text":
-                final View answerTextView=getActivity().getLayoutInflater().inflate(R.layout.text_view,null);
+                final View answerTextView = getActivity().getLayoutInflater().inflate(R.layout.text_view, null);
                 ((TextView) rootView.findViewById(R.id.answerType)).setText("Enter the answer below");
-                EditText answerText= (EditText) answerTextView.findViewById(R.id.answerTextId);
+                EditText answerText = (EditText) answerTextView.findViewById(R.id.answerTextId);
                 mAnswerLayout.addView(answerTextView);
                 break;
 
@@ -127,34 +127,31 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.submitButton:
-                boolean flag=true;
-                JSONObject jsonObject=new JSONObject();
+                boolean flag = true;
+                JSONObject jsonObject = new JSONObject();
                 try {
-                    View view=getView();
-                    jsonObject.put("question",questionsBean.getText());
-                    if (questionsBean.getType().equals("scale")){
-                          int num=  ((SeekBar)view.findViewById(R.id.seekBar)).getProgress();
-                            jsonObject.put("answer",num);
+                    View view = getView();
+                    jsonObject.put("question", questionsBean.getText());
+                    if (questionsBean.getType().equals("scale")) {
+                        int num = ((SeekBar) view.findViewById(R.id.seekBar)).getProgress();
+                        jsonObject.put("answer", num);
+                    } else if (questionsBean.getType().equals("text")) {
+                        String ans = ((EditText) view.findViewById(R.id.answerTextId)).getText().toString().trim();
+                        if (ans.length() == 0 && questionsBean.isCompulsary()) {
+                            flag = false;
                         }
-                        else if (questionsBean.getType().equals("text")){
-                        String ans=((EditText)view.findViewById(R.id.answerTextId)).getText().toString().trim();
-                        if (ans.length()==0 && questionsBean.isCompulsary()){
-                            flag=false;
-                        }
-                        jsonObject.put("answer",ans);
-                    }
-                    else if (questionsBean.getType().equals("MCQ")){
-                        int id=((RadioGroup)view.findViewById(R.id.radioGroupView)).getCheckedRadioButtonId();
-                        System.out.println("radio button ans"+id);
-                        if (id==-1){
-                            flag=false;
-                        }else {
+                        jsonObject.put("answer", ans);
+                    } else if (questionsBean.getType().equals("MCQ")) {
+                        int id = ((RadioGroup) view.findViewById(R.id.radioGroupView)).getCheckedRadioButtonId();
+                        System.out.println("radio button ans" + id);
+                        if (id == -1) {
+                            flag = false;
+                        } else {
                             String ans = ((RadioButton) view.findViewById(id)).getText().toString();
                             jsonObject.put("answer", ans);
                         }
                     }
-                    }
-                catch (JSONException e) {
+                } catch (JSONException e) {
                     e.printStackTrace();
                 }
                 if (flag) {
@@ -163,8 +160,7 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                     if ((getArguments().getInt(QUESTION_NUMBER) + 1) == SurveyActivity.QUESTIONS.size()) {
                         comm.sendData();
                     }
-                }
-                else {
+                } else {
                     Toast.makeText(getActivity(), "Question is compulsory", Toast.LENGTH_SHORT).show();
                 }
                 break;
@@ -172,12 +168,14 @@ public class QuestionViewFragment extends Fragment implements View.OnClickListen
                 break;
         }
     }
+
     /*
     * Communication with Activity from Fragment using the interface*/
-    public interface Communication{
+    public interface Communication {
         /*
         * add one answer object to the answer array in Survey Activity */
         public void addResponse(JSONObject singleQuestionObject);
+
         /*
         * To tell the Survey Activity that the questions ended*/
         public void sendData();
